@@ -51,13 +51,14 @@ $("#add-train-btn").on("click", function(event) {
   console.log(newTrain.frequency);
 
   // Alert
-  alert("train successfully added");
+  alert("Train successfully added!");
 
   // Clears all of the text-boxes
   $("#train-name-input").val("");
   $("#destination-input").val("");
   $("#first-train-time-input").val("");
   $("#frequency-input").val("");
+
 });
 
 // 3. Create Firebase event for adding train to the database and a row in the html when a user adds an entry
@@ -65,23 +66,23 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
   // console.log(childSnapshot.getKey())
 
   // Store everything into a variable.
-  var empName = childSnapshot.val().name;
-  var empRole = childSnapshot.val().role;
-  var empStart = childSnapshot.val().start;
-  var empRate = childSnapshot.val().rate;
+  var trainName = childSnapshot.val().name;
+  var trainDes = childSnapshot.val().destination;
+  var trainStart = childSnapshot.val().train1;
+  var trainFreq = childSnapshot.val().frequency;
 
   // train Info
-  console.log(empName);
-  console.log(empRole);
-  console.log(empStart);
-  console.log(empRate);
+  console.log(trainName);
+  console.log(trainDes);
+  console.log(trainStart);
+  console.log(trainFreq);
 
   // Prettify the train start
-  var empStartPretty = moment.unix(empStart).format("MM/DD/YY");
+  var trainStartPretty = moment.unix(trainStart).format("HH:mm");
 
   // Calculate the months worked using hardcore math
   // To calculate the months worked
-  var empMonths = moment().diff(moment.unix(empStart, "X"), "months");
+  var trainTimeLeft = moment().diff(moment.unix(trainStart, "HH:mm"), "months");
   console.log(empMonths);
 
   // Calculate the total billed rate
@@ -89,8 +90,8 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
   console.log(empBilled);
 
   // Add each train's data into the table
-  $("#train-table > tbody").append("<tr><td>" + empName + "</td><td>" + empRole + "</td><td>" +
-  empStartPretty + "</td><td>" + empMonths + "</td><td>" + empRate + "</td><td>" + empBilled + "</td></tr>");
+  $("#train-table > tbody").append("<tr><td>" + trainName + "</td><td>" + trainDes + "</td><td>" +
+  trainStartPretty + "</td><td>" + empMonths + "</td><td>" + empRate + "</td><td>" + empBilled + "</td></tr>");
 });
 
 // Example Time Math
