@@ -1,0 +1,25 @@
+
+
+html{
+	height: 100%;
+}
+
+body { 
+    background-image: 
+    url("assets/images/black-whitetrain.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover; 
+}
+
+/*.card {
+	background-color: rgba(255,255,255,0.4); 
+}
+*/
+https://images.unsplash.com/photo-1507008218969-8b3298795ec9?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=01166d75951a515c63e8869b9b9c57ce&auto=format&fit=crop&w=1500&q=80
+
+https://images.unsplash.com/photo-1514101490088-b5e37cc52e6e?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a2a9e86bd63e44bddb8dd6f74846de4d&auto=format&fit=crop&w=800&q=80
