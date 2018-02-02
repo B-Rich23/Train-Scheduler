@@ -77,22 +77,35 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
   console.log(trainStart);
   console.log(trainFreq);
 
-  // Prettify the train start
-  var trainStartPretty = moment.unix(trainStart).format("HH:mm");
+  // First Time (pushed back 1 year to make sure it comes before current time)
+    var firstTimeConverted  = moment(trainStart, "HH:mm").subtract(1, "years");
+    console.log(firstTimeConverted);
 
-  // Calculate the months worked using hardcore math
-  // To calculate the months worked
-  var trainTimeLeft = moment().diff(moment.unix(trainStart, "HH:mm"), "months");
-  console.log(empMonths);
+  // Current Time
+  var currentTime = moment();
+  console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
 
-  // Calculate the total billed rate
-  var empBilled = empMonths * empRate;
-  console.log(empBilled);
+  // Difference between the times
+  var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+  console.log("DIFFERENCE IN TIME: " + diffTime);
+
+  // Time apart (remainder)
+  var trainRemainder = diffTime % trainFreq;
+  console.log(trainRemainder);
+
+  // Minute Until Train
+  var minutesTillTrain = trainFreq - trainRemainder;
+  console.log("MINUTES TILL TRAIN: " + minutesTillTrain); 
+
+  // Next Train
+  var nextTrain = moment().add(minutesTillTrain, "minutes");
+  console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
 
   // Add each train's data into the table
-  $("#train-table > tbody").append("<tr><td>" + trainName + "</td><td>" + trainDes + "</td><td>" +
-  trainStartPretty + "</td><td>" + empMonths + "</td><td>" + empRate + "</td><td>" + empBilled + "</td></tr>");
+  $("#train-table, <tbody>").append("<tr><td>" + trainName + "</td><td>" + trainDes + "</td><td>" + firstTimeConverted + "</td><td>" + trainDes + "</td><td>" + trainFreq + "</td><td>" + nextTrain "</td><td>" + minutesTillTrain + "</td></tr>");
 });
+
+
 
 // Example Time Math
 // -----------------------------------------------------------------------------
