@@ -1,15 +1,3 @@
-/* global firebase moment */
-// Steps to complete:
-
-// 1. Initialize Firebase
-// 2. Create button for adding new trains - then update the html + update the database
-// 3. Create a way to retrieve trains from the train database.
-// 4. Create a way to calculate the months worked. Using difference between start and current time.
-//    Then use moment.js formatting to set difference in months.
-// 5. Calculate Total billed
-
-// 1. Initialize Firebase
- 
   // Initialize Firebase
   var config = {
     apiKey: "AIzaSyC_j05FqAlB_c1GIeW54v_1x_2d1t_7iYE",
@@ -31,9 +19,9 @@ $(document).on("click", "#add-train-btn", function(event) {
   // Grabs user input
   var trainName = $("#train-name-input").val().trim();
   var trainDes = $("#destination-input").val().trim();
-  var trainStart = $("#first-train-time-input").val().trim(); //UNIX time-stamp in seconds
-  // var trainStart = moment($("#first-train-time-input").val().trim(), "HH:mm").format("X"); //UNIX time-stamp in seconds
+  var trainStart = $("#first-train-time-input").val().trim();
   var trainFreq = $("#frequency-input").val().trim();
+
   // Creates local "temporary" object for holding train data
   var newTrain = {
     name: trainName,
@@ -64,7 +52,6 @@ $(document).on("click", "#add-train-btn", function(event) {
 
 // 3. Create Firebase event for adding train to the database and a row in the html when a user adds an entry
 database.ref().on("child_added", function(childSnapshot, prevChildKey) {
-  // console.log(childSnapshot.getKey())
 
   // Store everything into a variable.
   var trainName = childSnapshot.val().name;
@@ -79,8 +66,8 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
   console.log(trainFreq);
 
   // First Time (pushed back 1 year to make sure it comes before current time)
-    var firstTimeConverted  = moment(trainStart, "HH:mm").subtract(1, "years");
-    console.log(firstTimeConverted);
+  var firstTimeConverted  = moment(trainStart, "HH:mm").subtract(1, "years");
+  console.log(firstTimeConverted);
 
   // Current Time
   var currentTime = moment();
@@ -100,18 +87,12 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey) {
 
   // Next Train
   var nextTrain = moment().add(minutesTillTrain, "minutes");
-  console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+
+  // Arrival Time
+  var arrivalTime = moment(nextTrain).format("hh:mm");
+  console.log("ARRIVAL TIME: " + arrivalTime);
+
 
   // Add each train's data into the table
-  // $("#train-table, <tbody>").append("<tr><td>" + trainName + "</td><td>" + trainDes + "</td><td>" + firstTimeConverted + "</td><td>" + trainDes + "</td><td>" + trainFreq + "</td><td>" + nextTrain "</td><td>" + minutesTillTrain + "</td></tr>");
+  $("tbody").append("<tr><td>" + trainName + "</td><td>" + trainDes + "</td><td>" + trainFreq + "</td><td>" + arrivalTime + "</td><td>" + minutesTillTrain + "</td></tr>");
 });
-
-
-
-// Example Time Math
-// -----------------------------------------------------------------------------
-// Assume train start date of January 1, 2015
-// Assume current date is March 1, 2016
-
-// We know that this is 15 months.
-// Now we will create code in moment.js to confirm that any attempt we use mets this test case
